@@ -22,7 +22,7 @@ public class UserAdvertisementController {
 
     @GetMapping("/alladvertisements")
     public String test(){
-    return "user_";
+    return "user_ ";
     }
 }
 
