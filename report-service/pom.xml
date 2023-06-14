@@ -75,7 +75,7 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-admin-client</artifactId>
-            <version>18.0.2</version>
+            <version>21.1.1</version>
         </dependency>
 
         <dependency>

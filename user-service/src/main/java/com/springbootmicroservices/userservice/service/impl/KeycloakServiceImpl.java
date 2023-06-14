@@ -38,11 +38,10 @@ public class KeycloakServiceImpl implements KeycloakService {
     @Override
     public AccessTokenResponse loginWithKeycloak(LoginRequest request) {
         Keycloak loginKeycloak = buildKeycloak(request.getUsername(), request.getPassword());
-
         AccessTokenResponse accessTokenResponse = null;
-
         try{
             accessTokenResponse = loginKeycloak.tokenManager().getAccessToken();
+
             return accessTokenResponse;
         }catch (Exception e){
             return null;
@@ -72,6 +71,7 @@ public class KeycloakServiceImpl implements KeycloakService {
         userRepresentation.setLastName(keycloakUser.getLastName());
         userRepresentation.setEmail(keycloakUser.getEmail());
         userRepresentation.setUsername(keycloakUser.getUsername());
+
         HashMap<String, List<String>> clientRoles = new HashMap<>();
         clientRoles.put(KeycloakConfig.clientId,Collections.singletonList(keycloakUser.getRole()));
         userRepresentation.setClientRoles(clientRoles);
@@ -95,7 +95,6 @@ public class KeycloakServiceImpl implements KeycloakService {
 
         // Create user (requires manage-users role)
         Response response = usersResource.create(userRepresentation);
-
         LOGGER.info("KeycloakServiceImpl | createUserWithKeycloak | Create User : ");
         LOGGER.info("KeycloakServiceImpl | createUserWithKeycloak | response STATUS : " + response.getStatus());
         LOGGER.info("KeycloakServiceImpl | createUserWithKeycloak | response INFO : " + response.getStatusInfo());
@@ -108,9 +107,6 @@ public class KeycloakServiceImpl implements KeycloakService {
 
         keycloak.realm(KeycloakConfig.realm).users().get(userId).roles().realmLevel()
                 .add(Arrays.asList(savedRoleRepresentation));
-
-        LOGGER.info("KeycloakServiceImpl | createUserWithKeycloak | Added Role to User");
-
         return response.getStatus();
 
     }
